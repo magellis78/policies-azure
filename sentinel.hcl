@@ -3,5 +3,5 @@ policy "azure-time" {
 }
 
 policy "azure-instance-type" {
-    enforcement_level = "advisory"
+    enforcement_level = "soft-mandatory"
 }
