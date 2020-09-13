@@ -17,7 +17,7 @@ get_resources_root_only = func(type) {
 }
 
 allowed_vm_sizes = [
-	"Standard_A0",
+	"Standard_A2",
 	"Standard_A1",
 ]
 
