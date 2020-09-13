@@ -6,7 +6,7 @@ get_resources = func(type) {
 
 get_resources_root_only = func(type) {
 	resources = []
-	named_and_counted_resources = tfplan.resources[type] else {}
+	named_and_counted_resources = {}
 
 	for named_and_counted_resources as _, instances {
 		for instances as _, body {
