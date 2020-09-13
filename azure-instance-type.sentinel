@@ -1,13 +1,50 @@
-import "tfrun"
 import "tfplan"
 
-desired_vm_size = "Standard_A0"
-workspace_name = tfrun.workspace.name
+get_resources = func(type) {
+	if length(tfplan.module_paths else []) > 0 { # always true in the real tfplan import
+		return get_resources_all_modules(type)
+	} else { # fallback for tests
+		return get_resources_root_only(type)
+	}
+}
 
-print("Checking to make sure the", workspace_name, "workspace is using a", desired_vm_size, "vm_size")
+get_resources_root_only = func(type) {
+	resources = []
+	named_and_counted_resources = tfplan.resources[type] else {}
 
-configured_vm_size = tfplan.module([]).resources.azurerm_virtual_machine.catapp[0].applied.vm_size
+	for named_and_counted_resources as _, instances {
+		for instances as _, body {
+			append(resources, body)
+		}
+	}
+	return resources
+}
+
+get_resources_all_modules = func(type) {
+	resources = []
+	for tfplan.module_paths as path {
+		named_and_counted_resources = tfplan.module(path).resources[type] else {}
+
+		for named_and_counted_resources as _, instances {
+			for instances as _, body {
+				append(resources, body)
+			}
+		}
+	}
+	return resources
+}
+
+allowed_vm_sizes = [
+	"Standard_A0",
+	"Standard_A1",
+]
+
+vm_size_allowed = rule {
+	all get_resources("azurerm_virtual_machine") as r {
+		r.applied.vm_size in allowed_vm_sizes
+	}
+}
 
 main = rule {
-    desired_vm_size == configured_vm_size
+	(vm_size_allowed) else true
 }
