@@ -3,7 +3,7 @@ policy "azure-instance-type" {
 }
 
 policy "azure-time" {
-  enforcement_level = "hard-mandatory"
+  enforcement_level = "soft-mandatory"
 }
 
 policy "azure-cis-7.1-compute-managed-disk-encryption-is-enabled" {
