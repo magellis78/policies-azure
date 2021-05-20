@@ -2,7 +2,7 @@ policy "azure-instance-type" {
   enforcement_level = "soft-mandatory"
 }
 
-policy "azure-time" {
+policy "azure-deploy-time" {
   enforcement_level = "soft-mandatory"
 }
 
