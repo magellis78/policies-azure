@@ -2,6 +2,6 @@ import "time"
 
 wd = time.now.weekday
 
-print("Checking to make sure it is not 'Read-Only Friday'")
+print("Checking to make sure it is not 'Read-Only Saturday'")
 
-main = rule { wd != 5 }
+main = rule { wd != 6 }
